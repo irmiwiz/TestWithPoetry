@@ -21,7 +21,7 @@ TestWithPoetry already have:
 - Room
 - Compose
 - Compose Navigation
-- Serialization
+- ~~Serialization~~
 
 You will have 24 hours to finish this test. Afterward, we’ll have a one-hour meeting where our Android team will ask technical questions for the first 25 minutes. The rest of the meeting will be dedicated to reviewing the code, during which our Android leads will ask questions about what you’ve done.
 
