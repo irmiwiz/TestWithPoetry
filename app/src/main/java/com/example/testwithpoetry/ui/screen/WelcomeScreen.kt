@@ -3,6 +3,7 @@ package com.example.testwithpoetry.ui.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,16 +31,17 @@ fun WelcomeScreen() {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var birthday by remember { mutableStateOf("") }
-    var isFormValid by remember { mutableStateOf(true) }
+    var isFormValid by remember { mutableStateOf(false) }
 
-//    LaunchedEffect(name, email, birthday) {
-//        isFormValid = name.isNotBlank() && email.contains("@") && birthday.isNotBlank()
-//    }
+    LaunchedEffect(name, email, birthday) {
+        isFormValid = name.isNotBlank() && email.contains("@") && birthday.isNotBlank()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .fillMaxHeight()
             .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
@@ -67,7 +70,7 @@ fun WelcomeScreen() {
                 modifier = Modifier.fillMaxWidth()
             )
         }
-
+        Spacer(modifier = Modifier.height(32.dp))
         if (isFormValid) {
             Button(
                 onClick = { viewModel.action() },
