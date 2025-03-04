@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -19,19 +20,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.testwithpoetry.MainViewModel
+import com.example.testwithpoetry.localModels.User
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    navigateToList: () -> Unit
+) {
     val viewModel: MainViewModel = hiltViewModel()
 
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var birthday by remember { mutableStateOf("") }
     var isFormValid by remember { mutableStateOf(false) }
+    val pattern = remember { Regex("^\\d+\$") }
 
     LaunchedEffect(name, email, birthday) {
         isFormValid = name.isNotBlank() && email.contains("@") && birthday.isNotBlank()
@@ -65,15 +71,23 @@ fun WelcomeScreen() {
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = birthday,
-                onValueChange = { birthday = it },
+                onValueChange = {
+                    if (it.isEmpty() || it.matches(pattern)) {
+                        birthday = it
+                    }
+                                },
                 label = { Text("Birthday") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
         if (isFormValid) {
             Button(
-                onClick = { viewModel.action() },
+                onClick = {
+                    viewModel.saveUser(User(name, email, birthday.toLong()))
+                    navigateToList()
+                          },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -87,5 +101,5 @@ fun WelcomeScreen() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewWelcomeScreen() {
-    WelcomeScreen()
+    WelcomeScreen{}
 }
