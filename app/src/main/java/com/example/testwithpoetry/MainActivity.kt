@@ -4,24 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import com.example.testwithpoetry.ui.screen.WelcomeScreen
-import com.example.testwithpoetry.ui.theme.TestWithPoetryTheme
+import com.example.testwithpoetry.data.UserPreferences
+import com.example.testwithpoetry.ui.navigation.NavigationWrapper
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var userPreferences: UserPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestWithPoetryTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    WelcomeScreen()
-                }
-            }
+            NavigationWrapper(userPreferences)
         }
     }
 }
