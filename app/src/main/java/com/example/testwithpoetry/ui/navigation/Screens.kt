@@ -9,4 +9,7 @@ object WelcomeScreen
 object PoetryScreen
 
 @Serializable
+data class DetailScreen(val authorName: String)
+
+@Serializable
 object ProfileScreen

@@ -33,10 +33,6 @@ class MainViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(authors = response.data.authors)
                 }
-
-                response.data.authors.forEach {
-                    println(it)
-                }
             }
         }
     }

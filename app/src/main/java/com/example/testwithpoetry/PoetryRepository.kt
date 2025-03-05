@@ -2,7 +2,7 @@ package com.example.testwithpoetry
 
 import com.example.testwithpoetry.remoteResponses.AuthorsResponse
 import com.example.testwithpoetry.remoteResponses.PoemResponse
-import com.example.testwithpoetry.remoteResponses.PoemTitleReponse
+import com.example.testwithpoetry.remoteResponses.PoemTitleResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -26,7 +26,7 @@ class PoetryRepository @Inject constructor(
         }
     }
 
-    suspend fun getTitlesByAuthor(authorName: String): NetworkResource<PoemTitleReponse> {
+    suspend fun getTitlesByAuthor(authorName: String): NetworkResource<List<PoemTitleResponse>> {
         return withContext(Dispatchers.IO) {
             val response = client.get("https://poetrydb.org/author/$authorName/title")
 

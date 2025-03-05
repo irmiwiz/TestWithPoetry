@@ -1,5 +1,6 @@
 package com.example.testwithpoetry.ui.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,21 +14,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,68 +37,49 @@ import com.example.testwithpoetry.MainViewModel
 import com.example.testwithpoetry.R
 import com.example.testwithpoetry.ui.theme.TestWithPoetryTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AuthorsScreen() {
+fun AuthorsScreen(
+    gotoDetail: (String) -> Unit
+) {
     val viewModel: MainViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
 
-    TestWithPoetryTheme {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = 16.dp),
-            topBar = {
-                Box(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                ) {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                "Welcome ${viewModel.getName()}",
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        navigationIcon = {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_arrow_back),
-                                contentDescription = ""
-                            )
-                        }
-                    )
-                }
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                items(uiState.authors) {
-                    AuthorCard(it)
-                }
-            }
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        items(uiState.authors) {
+            AuthorCard(it, gotoDetail)
         }
     }
 }
 
+
 @Composable
-fun AuthorCard(author: String) {
+fun AuthorCard(author: String, openDetail: (String) -> Unit) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { openDetail(author) },
         shape = RectangleShape
     ) {
+        var liked by remember { mutableStateOf(false) }
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(vertical = 16.dp)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_star_outline),
+                    painter = if (liked) painterResource(R.drawable.ic_star_filled) else painterResource(
+                        R.drawable.ic_star_outline
+                    ),
                     contentDescription = null,
-                    tint = Color.DarkGray,
-                    modifier = Modifier.size(24.dp),
+                    tint = if (liked) Color.Yellow else Color.DarkGray,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            liked = liked.not()
+                        },
                 )
                 Spacer(Modifier.width(16.dp))
                 Text(
@@ -125,7 +106,7 @@ fun PreviewAuthorCard() {
     TestWithPoetryTheme {
         LazyColumn {
             items(info) {
-                AuthorCard(it)
+                AuthorCard(it) {}
             }
         }
     }
