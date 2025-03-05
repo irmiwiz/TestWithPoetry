@@ -1,8 +1,9 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.data.remote.api
 
-import com.example.testwithpoetry.remoteResponses.AuthorsResponse
-import com.example.testwithpoetry.remoteResponses.PoemResponse
-import com.example.testwithpoetry.remoteResponses.PoemTitleReponse
+import com.example.testwithpoetry.data.network.NetworkResource
+import com.example.testwithpoetry.data.remote.models.AuthorsResponse
+import com.example.testwithpoetry.data.remote.models.PoemResponse
+import com.example.testwithpoetry.data.remote.models.PoemTitleResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -12,7 +13,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PoetryRepository @Inject constructor(
-    private val client: HttpClient
+    private val client: HttpClient,
 ) {
     suspend fun getAuths(): NetworkResource<AuthorsResponse> {
         return withContext(Dispatchers.IO) {
@@ -26,7 +27,7 @@ class PoetryRepository @Inject constructor(
         }
     }
 
-    suspend fun getTitlesByAuthor(authorName: String): NetworkResource<PoemTitleReponse> {
+    suspend fun getTitlesByAuthor(authorName: String): NetworkResource<List<PoemTitleResponse>> {
         return withContext(Dispatchers.IO) {
             val response = client.get("https://poetrydb.org/author/$authorName/title")
 

@@ -72,6 +72,8 @@ dependencies {
     implementation(libs.room.paging)
     kapt(libs.room.compiler)
 
+    implementation(libs.google.gson)
+
     //Ktor
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
