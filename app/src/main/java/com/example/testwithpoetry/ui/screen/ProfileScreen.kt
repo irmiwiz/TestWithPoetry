@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,7 +32,6 @@ import com.example.testwithpoetry.ui.theme.TestWithPoetryTheme
 @Composable
 fun ProfileScreen() {
     val viewModel: MainViewModel = hiltViewModel()
-
     val user = viewModel.getUser()
 
     TestWithPoetryTheme {
@@ -65,7 +63,7 @@ fun ProfileScreen() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ic_profile),
+                    painter = painterResource(R.drawable.ic_writer_avatar),
                     contentDescription = "profile picture",
                     modifier = Modifier.size(120.dp)
                 )
