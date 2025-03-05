@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.testwithpoetry.data.UserPreferences
 import com.example.testwithpoetry.ui.screen.AuthorsScreen
+import com.example.testwithpoetry.ui.screen.ProfileScreen
 import com.example.testwithpoetry.ui.screen.WelcomeScreen
 
 @Composable
@@ -19,12 +20,16 @@ fun NavigationWrapper(userPreferences: UserPreferences) {
     NavHost(navController, startDestination = startDestination) {
         composable<WelcomeScreen> {
             WelcomeScreen {
-                navController.navigate(AuthorsScreen)
+                navController.navigate(PoetryScreen)
             }
         }
 
-        composable<AuthorsScreen> {
+        composable<PoetryScreen> {
             AuthorsScreen()
+        }
+
+        composable<ProfileScreen> {
+            ProfileScreen()
         }
     }
 }

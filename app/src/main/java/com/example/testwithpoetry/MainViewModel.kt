@@ -31,4 +31,6 @@ class MainViewModel @Inject constructor(
     }
 
     fun getName() = userPreferences.getUserName()
+
+    fun getUser() = userPreferences.getUser()
 }

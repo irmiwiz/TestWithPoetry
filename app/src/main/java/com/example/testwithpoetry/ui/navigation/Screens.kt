@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 object WelcomeScreen
 
 @Serializable
-object AuthorsScreen
+object PoetryScreen
+
+@Serializable
+object ProfileScreen
