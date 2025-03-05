@@ -5,6 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.testwithpoetry.data.UserPreferences
 import com.example.testwithpoetry.localModels.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,16 +16,27 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repo: PoetryRepository,
     private val userPreferences: UserPreferences
-): ViewModel() {
+) : ViewModel() {
 
-    fun action() {
+    private val _uiState = MutableStateFlow(AuthorsUiState())
+    val uiState: StateFlow<AuthorsUiState> = _uiState.asStateFlow()
+
+    init {
+        getAuthors()
+    }
+
+    private fun getAuthors() {
         viewModelScope.launch {
             val response = repo.getAuths()
 
             if (response is NetworkResource.Success) {
+                _uiState.update {
+                    it.copy(authors = response.data.authors)
+                }
+
                 response.data.authors.forEach {
                     println(it)
-                } 
+                }
             }
         }
     }
@@ -34,3 +49,7 @@ class MainViewModel @Inject constructor(
 
     fun getUser() = userPreferences.getUser()
 }
+
+data class AuthorsUiState(
+    val authors: List<String> = listOf()
+)

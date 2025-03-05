@@ -13,7 +13,7 @@ import com.example.testwithpoetry.ui.screen.WelcomeScreen
 fun NavigationWrapper(userPreferences: UserPreferences) {
     val navController = rememberNavController()
     val startDestination = if (userPreferences.hasUser()) {
-        AuthorsScreen
+        PoetryScreen
     } else {
         WelcomeScreen
     }
