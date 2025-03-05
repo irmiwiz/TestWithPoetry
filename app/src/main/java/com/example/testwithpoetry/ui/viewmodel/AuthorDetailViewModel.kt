@@ -41,10 +41,14 @@ class AuthorDetailViewModel @Inject constructor(
     }
 
     fun getPoem(authorName: String, title: String) {
+        _uiState.update {
+            it.copy(loading = true)
+        }
+
         viewModelScope.launch {
             val response = getPoemUseCase.execute(authorName, title)
             _uiState.update {
-                it.copy(poem = response)
+                it.copy(poem = response, loading = false)
             }
         }
     }
@@ -56,5 +60,6 @@ class AuthorDetailViewModel @Inject constructor(
 
 data class AuthorDetailUiState(
     val poem: Poem? = null,
-    val poems: PoemTitles? = null
+    val poems: PoemTitles? = null,
+    val loading: Boolean = false
 )
