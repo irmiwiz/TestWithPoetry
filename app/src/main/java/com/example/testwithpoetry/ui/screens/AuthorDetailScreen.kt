@@ -17,6 +17,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +37,10 @@ fun AuthorDetailScreen(authorName: String) {
 
     val viewModel: AuthorDetailViewModel = hiltViewModel()
     val state = viewModel.uiState.collectAsState()
+
+    LaunchedEffect(authorName) {
+        viewModel.getPoemsByAuthor(authorName)
+    }
 
     TestWithPoetryTheme {
         state.value.poems?.titles?.let {

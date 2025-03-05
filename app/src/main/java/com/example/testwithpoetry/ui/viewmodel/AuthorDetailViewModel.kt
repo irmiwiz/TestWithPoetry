@@ -23,13 +23,7 @@ class AuthorDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AuthorDetailUiState())
     val uiState: StateFlow<AuthorDetailUiState> = _uiState.asStateFlow()
 
-    init {
-        getPoemsByAuthor(
-            "Amy Levy"
-        )
-    }
-
-    private fun getPoemsByAuthor(authorName: String) {
+    fun getPoemsByAuthor(authorName: String) {
         viewModelScope.launch {
             val response = getAuthorPoemsUseCaseImpl.execute(authorName)
 
