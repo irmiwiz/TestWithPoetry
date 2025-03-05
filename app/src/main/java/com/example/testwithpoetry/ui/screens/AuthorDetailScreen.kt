@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -22,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.testwithpoetry.domain.models.Poem
 import com.example.testwithpoetry.ui.viewmodel.AuthorDetailViewModel
 import com.example.testwithpoetry.ui.theme.TestWithPoetryTheme
 
@@ -44,8 +47,11 @@ fun AuthorDetailScreen(authorName: String) {
                 }
             }
 
-            if (state.value.poem != null) {
-                //aqui abrir el dialogo
+            state.value.poem?.let {
+                AlertDialogExample(
+                    onDismissRequest = { viewModel.dismissDialog() },
+                    poem = it
+                )
             }
         }
     }
@@ -82,4 +88,31 @@ fun PoemCard(title: String, onPoemClicked: () -> Unit) {
             )
         }
     }
+}
+
+@Composable
+fun AlertDialogExample(
+    onDismissRequest: () -> Unit,
+    poem: Poem
+) {
+    AlertDialog(
+        title = {
+            Text(text = poem.title)
+        },
+        text = {
+            Text(text = poem.lines.toString())
+        },
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onDismissRequest()
+                }
+            ) {
+                Text("Dismiss")
+            }
+        }
+    )
 }

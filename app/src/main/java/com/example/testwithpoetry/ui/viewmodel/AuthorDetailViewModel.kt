@@ -48,6 +48,10 @@ class AuthorDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun dismissDialog() {
+        _uiState.update { it.copy(poem = null) }
+    }
 }
 
 data class AuthorDetailUiState(
