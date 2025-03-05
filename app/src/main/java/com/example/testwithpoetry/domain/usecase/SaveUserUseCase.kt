@@ -1,8 +1,7 @@
 package com.example.testwithpoetry.domain.usecase
 
-import com.example.testwithpoetry.domain.models.Author
-import kotlinx.coroutines.flow.Flow
+import com.example.testwithpoetry.domain.models.User
 
 interface SaveUserUseCase {
-    suspend fun execute(): Flow<List<Author>>
+    suspend fun execute(user: User): Boolean
 }

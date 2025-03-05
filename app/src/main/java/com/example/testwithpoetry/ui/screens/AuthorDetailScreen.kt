@@ -32,14 +32,14 @@ fun AuthorDetailScreen(authorName: String) {
     val state = viewModel.uiState.collectAsState()
 
     TestWithPoetryTheme {
-        state.value.poems?.let {
+        state.value.poems?.titles?.let {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
                 items(it) {
-                    PoemCard(it.title) {
-                        viewModel.getPoem(authorName, it.title)
+                    PoemCard(it) {
+                        viewModel.getPoem(authorName, it)
                     }
                 }
             }

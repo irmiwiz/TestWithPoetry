@@ -6,16 +6,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetUserUseCaseImpl @Inject constructor(
+class SaveUserUseCaseImpl @Inject constructor(
     private val userPreferences: UserPreferences
-) : GetUserUseCase {
+) : SaveUserUseCase{
 
-    override suspend fun execute(): User? {
+    override suspend fun execute(user: User): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                userPreferences.getUser()
+                userPreferences.saveUser(user)
+                true
             } catch (e: Exception) {
-                null
+                false
             }
         }
     }

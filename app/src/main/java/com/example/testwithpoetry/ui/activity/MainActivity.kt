@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.testwithpoetry.data.local.preferences.UserPreferences
+import com.example.testwithpoetry.domain.usecase.GetUserUseCase
 import com.example.testwithpoetry.ui.navigation.NavigationWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -12,13 +13,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var userPreferences: UserPreferences
+    lateinit var getUserUseCase: GetUserUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            NavigationWrapper(userPreferences)
+            NavigationWrapper(getUserUseCase)
         }
     }
 }

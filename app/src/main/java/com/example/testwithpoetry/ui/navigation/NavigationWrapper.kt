@@ -12,12 +12,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -25,7 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.testwithpoetry.data.local.preferences.UserPreferences
+import com.example.testwithpoetry.domain.usecase.GetUserUseCase
 import com.example.testwithpoetry.ui.screens.AuthorDetailScreen
 import com.example.testwithpoetry.ui.screens.AuthorsScreen
 import com.example.testwithpoetry.ui.screens.ProfileScreen
@@ -33,14 +35,17 @@ import com.example.testwithpoetry.ui.screens.WelcomeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationWrapper(userPreferences: UserPreferences) {
+fun NavigationWrapper(getUserUseCase: GetUserUseCase) {
     val navController = rememberNavController()
     var title by remember { mutableStateOf("") }
+    var startDestination by remember { mutableStateOf("") } // Valor por defecto
+    val context = LocalContext.current
 
-    val startDestination = if (userPreferences.hasUser()) {
-        Navigate.Poetry.route
-    } else {
-        Navigate.Welcome.route
+    LaunchedEffect(Unit) {
+        val user = getUserUseCase.execute()
+        startDestination = if (user?.name?.isNotEmpty() == true) {
+            Navigate.Poetry.route
+        } else Navigate.Poetry.route
     }
 
     Scaffold(
@@ -63,7 +68,7 @@ fun NavigationWrapper(userPreferences: UserPreferences) {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = startDestination,
+            startDestination = Navigate.Poetry.route,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Navigate.Welcome.route) {
@@ -74,7 +79,7 @@ fun NavigationWrapper(userPreferences: UserPreferences) {
             }
 
             composable(Navigate.Poetry.route) {
-                title = "Welcome ${userPreferences.getUserName()}"
+                //title = "Welcome ${userPreferences.getUserName()}"
                 AuthorsScreen { authorName ->
                     navController.navigate("detail/$authorName")
                 }

@@ -2,10 +2,10 @@ package com.example.testwithpoetry.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testwithpoetry.data.network.NetworkResource
-import com.example.testwithpoetry.data.remote.api.PoetryRepository
-import com.example.testwithpoetry.data.remote.models.PoemResponse
-import com.example.testwithpoetry.data.remote.models.PoemTitleResponse
+import com.example.testwithpoetry.domain.models.Poem
+import com.example.testwithpoetry.domain.models.PoemTitles
+import com.example.testwithpoetry.domain.usecase.GetAuthorPoemsUseCase
+import com.example.testwithpoetry.domain.usecase.GetPoemDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthorDetailViewModel @Inject constructor(
-    private val repo: PoetryRepository
+    private val getPoemUseCase: GetPoemDetailUseCase,
+    private val getAuthorPoemsUseCaseImpl: GetAuthorPoemsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AuthorDetailUiState())
@@ -30,28 +31,26 @@ class AuthorDetailViewModel @Inject constructor(
 
     private fun getPoemsByAuthor(authorName: String) {
         viewModelScope.launch {
-            val response = repo.getTitlesByAuthor(authorName)
-            if (response is NetworkResource.Success) {
-                _uiState.update {
-                    it.copy(poems = response.data)
-                }
+            val response = getAuthorPoemsUseCaseImpl.execute(authorName)
+
+            _uiState.update {
+                it.copy(poems = response)
             }
+
         }
     }
 
     fun getPoem(authorName: String, title: String) {
         viewModelScope.launch {
-            val response = repo.getPoem(authorName, title)
-            if (response is NetworkResource.Success) {
-                _uiState.update {
-                    it.copy(poem = response.data.firstOrNull())
-                }
+            val response = getPoemUseCase.execute(authorName, title)
+            _uiState.update {
+                it.copy(poem = response)
             }
         }
     }
 }
 
 data class AuthorDetailUiState(
-    val poem: PoemResponse? = null,
-    val poems: List<PoemTitleResponse>? = null
+    val poem: Poem? = null,
+    val poems: PoemTitles? = null
 )

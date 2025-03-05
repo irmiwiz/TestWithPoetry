@@ -10,6 +10,8 @@ import com.example.testwithpoetry.domain.usecase.GetUserUseCase
 import com.example.testwithpoetry.domain.usecase.GetUserUseCaseImpl
 import com.example.testwithpoetry.domain.usecase.SaveFavoriteAuthorUseCase
 import com.example.testwithpoetry.domain.usecase.SaveFavoriteAuthorUseCaseImpl
+import com.example.testwithpoetry.domain.usecase.SaveUserUseCase
+import com.example.testwithpoetry.domain.usecase.SaveUserUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -50,5 +52,11 @@ abstract class UseCaseModule {
     abstract fun bindGetUserUseCase(
         getUserUseCase: GetUserUseCaseImpl
     ): GetUserUseCase
+
+    @Binds
+    @Singleton
+    abstract fun bindSaveUserUseCase(
+        saveUserUseCase: SaveUserUseCaseImpl
+    ): SaveUserUseCase
 
 }
