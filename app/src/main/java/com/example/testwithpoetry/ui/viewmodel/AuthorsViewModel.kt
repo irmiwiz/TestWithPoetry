@@ -2,9 +2,9 @@ package com.example.testwithpoetry.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testwithpoetry.domain.repository.DatabaseRepository
 import com.example.testwithpoetry.domain.models.Author
 import com.example.testwithpoetry.domain.usecase.GetAuthorsUseCase
+import com.example.testwithpoetry.domain.usecase.SaveFavoriteAuthorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthorsViewModelModel @Inject constructor(
     private val getAuthorsUseCase: GetAuthorsUseCase,
-    private val databaseRepository: DatabaseRepository
+    private val saveFavoriteAuthorUseCase: SaveFavoriteAuthorUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AuthorsUiState())
@@ -24,6 +24,10 @@ class AuthorsViewModelModel @Inject constructor(
 
     init {
         loadAuthors()
+    }
+
+    fun resetSaveState() {
+        _uiState.update { it.copy(saved = false) }
     }
 
     private fun loadAuthors() {
@@ -38,12 +42,16 @@ class AuthorsViewModelModel @Inject constructor(
 
     fun saveFavoriteAuthor(authorName: String) {
         viewModelScope.launch {
-            databaseRepository.addFavorite(authorName)
+            _uiState.update {
+                it.copy(saved = saveFavoriteAuthorUseCase.execute(authorName))
+            }
+
         }
     }
 
 }
 
 data class AuthorsUiState(
-    val authors: List<Author> = listOf()
+    val authors: List<Author> = listOf(),
+    val saved: Boolean = false
 )
