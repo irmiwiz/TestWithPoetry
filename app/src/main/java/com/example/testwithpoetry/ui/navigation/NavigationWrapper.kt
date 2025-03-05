@@ -37,14 +37,17 @@ import com.example.testwithpoetry.ui.screens.WelcomeScreen
 fun NavigationWrapper(getUserUseCase: GetUserUseCase) {
     val navController = rememberNavController()
     var title by remember { mutableStateOf("") }
-    var startDestination by remember { mutableStateOf("") } // Valor por defecto
+    var startDestination by remember { mutableStateOf<String?>(null) }
+    var user by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        val user = getUserUseCase.execute()
-        startDestination = if (user?.name?.isNotEmpty() == true) {
+         user = getUserUseCase.execute()?.name.orEmpty()
+        startDestination = if (user.isNotEmpty()) {
             Navigate.Poetry.route
         } else Navigate.Poetry.route
     }
+
+    if (startDestination == null) return
 
     Scaffold(
         bottomBar = {
@@ -77,7 +80,7 @@ fun NavigationWrapper(getUserUseCase: GetUserUseCase) {
             }
 
             composable(Navigate.Poetry.route) {
-                //title = "Welcome ${userPreferences.getUserName()}"
+                title = "Welcome $user"
                 AuthorsScreen { authorName ->
                     navController.navigate("detail/$authorName")
                 }

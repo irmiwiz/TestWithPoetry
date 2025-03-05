@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -56,7 +58,7 @@ fun AuthorDetailScreen(authorName: String) {
             }
 
             if (state.value.loading) {
-                Box (
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Color.Black.copy(alpha = 0.5f)),
@@ -75,7 +77,6 @@ fun AuthorDetailScreen(authorName: String) {
         }
     }
 }
-
 
 
 @Composable
@@ -120,7 +121,12 @@ fun AlertDialogExample(
             Text(text = poem.title)
         },
         text = {
-            Text(text = poem.lines.toString())
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                poem.lines.forEach {
+                    Text(text = it)
+                }
+
+            }
         },
         onDismissRequest = {
             onDismissRequest()
