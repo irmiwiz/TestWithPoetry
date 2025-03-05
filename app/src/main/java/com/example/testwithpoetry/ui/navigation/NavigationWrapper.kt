@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -39,7 +38,6 @@ fun NavigationWrapper(getUserUseCase: GetUserUseCase) {
     val navController = rememberNavController()
     var title by remember { mutableStateOf("") }
     var startDestination by remember { mutableStateOf("") } // Valor por defecto
-    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         val user = getUserUseCase.execute()
@@ -113,24 +111,31 @@ fun BottomNavigationBar(navController: NavController) {
         val currentRoute =
             navController.currentBackStackEntryAsState().value?.destination?.route.orEmpty()
         items.forEach { screen ->
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        imageVector = screen.icon,
-                        contentDescription = screen.label
-                    )
-                },
-                label = { Text(screen.label) },
-                selected = currentRoute == screen.route,
-                onClick = {
-                    navController.navigate(screen.route)
-                }
-            )
+            if (screen.show) {
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            imageVector = screen.icon,
+                            contentDescription = screen.label
+                        )
+                    },
+                    label = { Text(screen.label) },
+                    selected = currentRoute == screen.route,
+                    onClick = {
+                        navController.navigate(screen.route)
+                    }
+                )
+            }
         }
     }
 }
 
-sealed class Navigate(val route: String, val label: String, val icon: ImageVector, show: Boolean) {
+sealed class Navigate(
+    val route: String,
+    val label: String,
+    val icon: ImageVector,
+    val show: Boolean
+) {
     data object Poetry : Navigate("poetry", "Poetry", Icons.Default.FavoriteBorder, true)
     data object Profile : Navigate("profile", "Profile", Icons.Default.Person, true)
     data object Welcome : Navigate("welcome", "Welcome", Icons.Default.Person, false)

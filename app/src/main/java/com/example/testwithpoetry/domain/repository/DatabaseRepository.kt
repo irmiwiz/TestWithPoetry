@@ -7,7 +7,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DatabaseRepository @Inject constructor(
-    private val db: PoetryDatabase
+    db: PoetryDatabase
 ) {
     private val favoriteAuthorDao = db.favoriteAuthorDao()
 

@@ -26,15 +26,4 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         val json = prefs.getString(KEY_USER, null) ?: return null
         return gson.fromJson(json, User::class.java)
     }
-
-    fun getUserName(): String {
-        val json = prefs.getString(KEY_USER, null) ?: return ""
-        return gson.fromJson(json, User::class.java).name
-    }
-
-    fun clearUser() {
-        prefs.edit().remove(KEY_USER).apply()
-    }
-
-    fun hasUser() = prefs.getString(KEY_USER, null) != null
 }

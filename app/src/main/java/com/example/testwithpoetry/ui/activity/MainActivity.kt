@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.testwithpoetry.data.local.preferences.UserPreferences
 import com.example.testwithpoetry.domain.usecase.GetUserUseCase
 import com.example.testwithpoetry.ui.navigation.NavigationWrapper
 import dagger.hilt.android.AndroidEntryPoint
