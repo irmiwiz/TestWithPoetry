@@ -1,8 +1,8 @@
-package com.example.testwithpoetry.data
+package com.example.testwithpoetry.data.local.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.testwithpoetry.localModels.User
+import com.example.testwithpoetry.domain.models.User
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

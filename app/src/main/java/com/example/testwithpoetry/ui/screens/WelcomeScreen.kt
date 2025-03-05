@@ -1,4 +1,4 @@
-package com.example.testwithpoetry.ui.screen
+package com.example.testwithpoetry.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.testwithpoetry.MainViewModel
-import com.example.testwithpoetry.localModels.User
+import com.example.testwithpoetry.ui.viewmodel.MainViewModel
+import com.example.testwithpoetry.domain.models.User
 
 @Composable
 fun WelcomeScreen(

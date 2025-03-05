@@ -1,4 +1,4 @@
-package com.example.testwithpoetry.data.database
+package com.example.testwithpoetry.data.local.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

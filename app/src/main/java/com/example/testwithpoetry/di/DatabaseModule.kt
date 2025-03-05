@@ -2,9 +2,9 @@ package com.example.testwithpoetry.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.testwithpoetry.data.database.FavoriteAuthorDao
-import com.example.testwithpoetry.data.database.POETRY_DATABASE
-import com.example.testwithpoetry.data.database.PoetryDatabase
+import com.example.testwithpoetry.data.local.database.FavoriteAuthorDao
+import com.example.testwithpoetry.data.local.database.POETRY_DATABASE
+import com.example.testwithpoetry.data.local.database.PoetryDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

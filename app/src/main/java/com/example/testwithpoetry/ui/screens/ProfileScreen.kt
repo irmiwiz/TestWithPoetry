@@ -1,4 +1,4 @@
-package com.example.testwithpoetry.ui.screen
+package com.example.testwithpoetry.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.testwithpoetry.MainViewModel
+import com.example.testwithpoetry.ui.viewmodel.MainViewModel
 import com.example.testwithpoetry.R
 import com.example.testwithpoetry.ui.theme.TestWithPoetryTheme
 

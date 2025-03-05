@@ -1,4 +1,4 @@
-package com.example.testwithpoetry.ui.screen
+package com.example.testwithpoetry.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -31,10 +31,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.testwithpoetry.AuthorsViewModelModel
-import com.example.testwithpoetry.MainViewModel
+import com.example.testwithpoetry.ui.viewmodel.AuthorsViewModelModel
 import com.example.testwithpoetry.R
-import com.example.testwithpoetry.localModels.Author
+import com.example.testwithpoetry.domain.models.Author
 
 @Composable
 fun AuthorsScreen(

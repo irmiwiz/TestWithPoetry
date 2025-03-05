@@ -1,5 +1,7 @@
-package com.example.testwithpoetry.data.database
+package com.example.testwithpoetry.domain.repository
 
+import com.example.testwithpoetry.data.local.database.FavoriteAuthorEntity
+import com.example.testwithpoetry.data.local.database.PoetryDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

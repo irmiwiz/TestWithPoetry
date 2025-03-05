@@ -1,7 +1,7 @@
 package com.example.testwithpoetry.di
 
-import com.example.testwithpoetry.GetAuthorsUseCase
-import com.example.testwithpoetry.GetAuthorsUseCaseImpl
+import com.example.testwithpoetry.domain.usecase.GetAuthorsUseCase
+import com.example.testwithpoetry.domain.usecase.GetAuthorsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

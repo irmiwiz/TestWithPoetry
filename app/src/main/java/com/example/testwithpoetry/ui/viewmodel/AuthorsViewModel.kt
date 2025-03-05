@@ -1,9 +1,10 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testwithpoetry.data.database.DatabaseRepository
-import com.example.testwithpoetry.localModels.Author
+import com.example.testwithpoetry.domain.repository.DatabaseRepository
+import com.example.testwithpoetry.domain.models.Author
+import com.example.testwithpoetry.domain.usecase.GetAuthorsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

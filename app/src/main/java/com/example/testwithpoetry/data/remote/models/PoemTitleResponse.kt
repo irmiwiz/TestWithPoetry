@@ -1,4 +1,4 @@
-package com.example.testwithpoetry.remoteResponses
+package com.example.testwithpoetry.data.remote.models
 
 import kotlinx.serialization.Serializable
 

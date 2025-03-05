@@ -1,6 +1,6 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.domain.usecase
 
-import com.example.testwithpoetry.localModels.Author
+import com.example.testwithpoetry.domain.models.Author
 import kotlinx.coroutines.flow.Flow
 
 interface GetAuthorsUseCase {

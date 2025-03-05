@@ -1,11 +1,11 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testwithpoetry.data.network.NetworkResource
-import com.example.testwithpoetry.data.network.PoetryRepository
-import com.example.testwithpoetry.remoteResponses.PoemResponse
-import com.example.testwithpoetry.remoteResponses.PoemTitleResponse
+import com.example.testwithpoetry.data.remote.api.PoetryRepository
+import com.example.testwithpoetry.data.remote.models.PoemResponse
+import com.example.testwithpoetry.data.remote.models.PoemTitleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

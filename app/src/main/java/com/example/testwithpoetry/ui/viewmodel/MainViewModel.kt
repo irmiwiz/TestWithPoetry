@@ -1,18 +1,14 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.testwithpoetry.data.UserPreferences
-import com.example.testwithpoetry.data.database.DatabaseRepository
-import com.example.testwithpoetry.data.network.NetworkResource
-import com.example.testwithpoetry.data.network.PoetryRepository
-import com.example.testwithpoetry.localModels.User
+import com.example.testwithpoetry.data.local.preferences.UserPreferences
+import com.example.testwithpoetry.domain.repository.DatabaseRepository
+import com.example.testwithpoetry.data.remote.api.PoetryRepository
+import com.example.testwithpoetry.domain.models.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

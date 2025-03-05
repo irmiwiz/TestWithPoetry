@@ -1,4 +1,4 @@
-package com.example.testwithpoetry.data.database
+package com.example.testwithpoetry.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

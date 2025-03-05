@@ -1,10 +1,10 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.ui.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.testwithpoetry.data.UserPreferences
+import com.example.testwithpoetry.data.local.preferences.UserPreferences
 import com.example.testwithpoetry.ui.navigation.NavigationWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

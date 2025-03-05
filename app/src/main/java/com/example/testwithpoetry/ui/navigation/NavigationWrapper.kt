@@ -25,12 +25,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.toRoute
-import com.example.testwithpoetry.data.UserPreferences
-import com.example.testwithpoetry.ui.screen.AuthorDetailScreen
-import com.example.testwithpoetry.ui.screen.AuthorsScreen
-import com.example.testwithpoetry.ui.screen.ProfileScreen
-import com.example.testwithpoetry.ui.screen.WelcomeScreen
+import com.example.testwithpoetry.data.local.preferences.UserPreferences
+import com.example.testwithpoetry.ui.screens.AuthorDetailScreen
+import com.example.testwithpoetry.ui.screens.AuthorsScreen
+import com.example.testwithpoetry.ui.screens.ProfileScreen
+import com.example.testwithpoetry.ui.screens.WelcomeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

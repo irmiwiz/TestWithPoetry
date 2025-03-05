@@ -1,8 +1,9 @@
-package com.example.testwithpoetry.data.network
+package com.example.testwithpoetry.data.remote.api
 
-import com.example.testwithpoetry.remoteResponses.AuthorsResponse
-import com.example.testwithpoetry.remoteResponses.PoemResponse
-import com.example.testwithpoetry.remoteResponses.PoemTitleResponse
+import com.example.testwithpoetry.data.network.NetworkResource
+import com.example.testwithpoetry.data.remote.models.AuthorsResponse
+import com.example.testwithpoetry.data.remote.models.PoemResponse
+import com.example.testwithpoetry.data.remote.models.PoemTitleResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

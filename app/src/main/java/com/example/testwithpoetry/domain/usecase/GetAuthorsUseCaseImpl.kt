@@ -1,9 +1,9 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.domain.usecase
 
-import com.example.testwithpoetry.data.database.DatabaseRepository
+import com.example.testwithpoetry.domain.repository.DatabaseRepository
 import com.example.testwithpoetry.data.network.NetworkResource
-import com.example.testwithpoetry.data.network.PoetryRepository
-import com.example.testwithpoetry.localModels.Author
+import com.example.testwithpoetry.data.remote.api.PoetryRepository
+import com.example.testwithpoetry.domain.models.Author
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
