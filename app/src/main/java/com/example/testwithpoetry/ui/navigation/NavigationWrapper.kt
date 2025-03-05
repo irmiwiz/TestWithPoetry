@@ -1,6 +1,5 @@
 package com.example.testwithpoetry.ui.navigation
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -17,19 +16,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.toRoute
-import com.example.testwithpoetry.R
 import com.example.testwithpoetry.data.UserPreferences
 import com.example.testwithpoetry.ui.screen.AuthorDetailScreen
 import com.example.testwithpoetry.ui.screen.AuthorsScreen
@@ -43,26 +39,23 @@ fun NavigationWrapper(userPreferences: UserPreferences) {
     var title by remember { mutableStateOf("") }
 
     val startDestination = if (userPreferences.hasUser()) {
-        title = "Welcome ${userPreferences.getUserName()}"
-        BottomNavScreen.Authors.route
+        Navigate.Poetry.route
     } else {
-        "welcome"
+        Navigate.Welcome.route
     }
 
     Scaffold(
         bottomBar = {
             val currentDestination =
                 navController.currentBackStackEntryAsState().value?.destination?.route
-            if (currentDestination in listOf(
-                    BottomNavScreen.Authors.route,
-                    BottomNavScreen.Profile.route
-                )
-            ) {
+            if (currentDestination != Navigate.Welcome.route) {
                 BottomNavigationBar(navController)
             }
         },
         topBar = {
-            if (title.isNotBlank()) {
+            val currentDestination =
+                navController.currentBackStackEntryAsState().value?.destination?.route
+            if (currentDestination != Navigate.Welcome.route) {
                 TopAppBar(
                     title = { Text(title, textAlign = TextAlign.Center) }
                 )
@@ -74,28 +67,31 @@ fun NavigationWrapper(userPreferences: UserPreferences) {
             startDestination = startDestination,
             modifier = Modifier.padding(paddingValues)
         ) {
-            composable("welcome") {
+            composable(Navigate.Welcome.route) {
+                title = ""
                 WelcomeScreen {
-                    title = "Welcome ${userPreferences.getUserName()}"
-                    navController.navigate(BottomNavScreen.Authors.route) {
-                        popUpTo("welcome") { inclusive = true }
-                    }
+                    navController.navigate(Navigate.Poetry.route)
                 }
             }
 
-            composable(BottomNavScreen.Authors.route) {
+            composable(Navigate.Poetry.route) {
+                title = "Welcome ${userPreferences.getUserName()}"
                 AuthorsScreen { authorName ->
-                    title = authorName
                     navController.navigate("detail/$authorName")
                 }
             }
 
-            composable(BottomNavScreen.Profile.route) {
+            composable(Navigate.Profile.route) {
+                title = "Profile"
                 ProfileScreen()
             }
 
-            composable("detail/{authorName}") { backStackEntry ->
+            composable(
+                route = Navigate.AuthorDetail.route,
+                arguments = listOf(navArgument("authorName") { defaultValue = "" })
+            ) { backStackEntry ->
                 val authorName = backStackEntry.arguments?.getString("authorName") ?: ""
+                title = authorName
                 AuthorDetailScreen(authorName)
             }
         }
@@ -105,8 +101,8 @@ fun NavigationWrapper(userPreferences: UserPreferences) {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        BottomNavScreen.Authors,
-        BottomNavScreen.Profile
+        Navigate.Poetry,
+        Navigate.Profile
     )
 
     NavigationBar {
@@ -123,17 +119,17 @@ fun BottomNavigationBar(navController: NavController) {
                 label = { Text(screen.label) },
                 selected = currentRoute == screen.route,
                 onClick = {
-                    navController.navigate(screen.route) {
-                        popUpTo(BottomNavScreen.Authors.route) { inclusive = false }
-                        launchSingleTop = true
-                    }
+                    navController.navigate(screen.route)
                 }
             )
         }
     }
 }
 
-sealed class BottomNavScreen(val route: String, val label: String, val icon: ImageVector) {
-    object Authors : BottomNavScreen("authors", "Authors", Icons.Default.FavoriteBorder)
-    object Profile : BottomNavScreen("profile", "Profile", Icons.Default.Person)
+sealed class Navigate(val route: String, val label: String, val icon: ImageVector, show: Boolean) {
+    data object Poetry : Navigate("poetry", "Poetry", Icons.Default.FavoriteBorder, true)
+    data object Profile : Navigate("profile", "Profile", Icons.Default.Person, true)
+    data object Welcome : Navigate("welcome", "Welcome", Icons.Default.Person, false)
+    data object AuthorDetail :
+        Navigate("detail/{authorName}", "Author Detail", Icons.Default.Person, false)
 }

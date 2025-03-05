@@ -2,6 +2,8 @@ package com.example.testwithpoetry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.testwithpoetry.data.network.NetworkResource
+import com.example.testwithpoetry.data.network.PoetryRepository
 import com.example.testwithpoetry.remoteResponses.PoemResponse
 import com.example.testwithpoetry.remoteResponses.PoemTitleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel

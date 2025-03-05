@@ -1,7 +1,6 @@
 package com.example.testwithpoetry.ui.screen
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,19 +28,19 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.testwithpoetry.AuthorsViewModelModel
 import com.example.testwithpoetry.MainViewModel
 import com.example.testwithpoetry.R
-import com.example.testwithpoetry.ui.theme.TestWithPoetryTheme
+import com.example.testwithpoetry.localModels.Author
 
 @Composable
 fun AuthorsScreen(
     gotoDetail: (String) -> Unit
 ) {
-    val viewModel: MainViewModel = hiltViewModel()
+    val viewModel: AuthorsViewModelModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
 
     LazyColumn(
@@ -49,25 +48,28 @@ fun AuthorsScreen(
             .fillMaxSize()
     ) {
         items(uiState.authors) {
-            AuthorCard(it, gotoDetail)
+            AuthorCard(it, gotoDetail) { author ->
+                viewModel.saveFavoriteAuthor(author)
+            }
         }
     }
 }
 
 
 @Composable
-fun AuthorCard(author: String, openDetail: (String) -> Unit) {
+fun AuthorCard(author: Author, openDetail: (String) -> Unit, cardLiked: (String) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { openDetail(author) },
+            .clickable { openDetail(author.name) },
         shape = RectangleShape
     ) {
-        var liked by remember { mutableStateOf(false) }
+        var liked by remember { mutableStateOf(author.liked) }
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(vertical = 16.dp)
+                modifier = Modifier.padding(16.dp)
+
             ) {
                 Icon(
                     painter = if (liked) painterResource(R.drawable.ic_star_filled) else painterResource(
@@ -78,12 +80,13 @@ fun AuthorCard(author: String, openDetail: (String) -> Unit) {
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
+                            cardLiked.invoke(author.name)
                             liked = liked.not()
                         },
                 )
                 Spacer(Modifier.width(16.dp))
                 Text(
-                    text = author,
+                    text = author.name,
                     fontSize = 18.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Medium,
@@ -95,19 +98,6 @@ fun AuthorCard(author: String, openDetail: (String) -> Unit) {
                 color = Color.LightGray,
                 thickness = 1.dp
             )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewAuthorCard() {
-    val info = listOf("Mario", "Juan", "Vicente", "Albert", "Emilio")
-    TestWithPoetryTheme {
-        LazyColumn {
-            items(info) {
-                AuthorCard(it) {}
-            }
         }
     }
 }

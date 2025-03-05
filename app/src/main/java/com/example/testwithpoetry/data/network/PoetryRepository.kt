@@ -1,4 +1,4 @@
-package com.example.testwithpoetry
+package com.example.testwithpoetry.data.network
 
 import com.example.testwithpoetry.remoteResponses.AuthorsResponse
 import com.example.testwithpoetry.remoteResponses.PoemResponse
@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PoetryRepository @Inject constructor(
-    private val client: HttpClient
+    private val client: HttpClient,
 ) {
     suspend fun getAuths(): NetworkResource<AuthorsResponse> {
         return withContext(Dispatchers.IO) {
